@@ -16,6 +16,9 @@ function addProvider(data, source) {
   return newFormatData;
 }
 
+/**
+ * Convert data on format csv to format JSON
+ */
 exports.csvToJson = (csv) => {
   const content = csv.split('\n');
   const header = content[0].split(',');
@@ -39,8 +42,8 @@ exports.formatDataMoon = (data) => {
   return dataWithProvider.map(item => ({
     provider: item.provider,
     price: item.price,
-    departure_time: item.dtime,
-    arrival_time: item.atime,
+    departure_time: item.departure_time,
+    arrival_time: item.arrival_time,
   }));
 };
 
@@ -50,8 +53,8 @@ exports.formatDataBeam = (data) => {
   return dataWithProvider.map(item => ({
     provider: item.provider,
     price: item.price,
-    departure_time: item.dtime,
-    arrival_time: item.atime,
+    departure_time: item.departure_time,
+    arrival_time: item.arrival_time,
   }));
 };
 
