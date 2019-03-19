@@ -1,4 +1,5 @@
 const axios = require('axios');
+const httpStatus = require('http-status');
 
 exports.getDataAirMoon = async () => {
   return axios.get('https://my.api.mockaroo.com/flight/air-moon?key=52445410');

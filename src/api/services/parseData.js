@@ -4,7 +4,11 @@ const AIR_BEAM = 'AIR_BEAM';
 const AIR_JAZZ = 'AIR_JAZZ';
 const AIR_MOON = 'AIR_MOON';
 
-
+/**
+ * For each element in the table we add a source API
+ * @param {array} data
+ * @param {string} source
+ */
 function addProvider(data, source) {
   const newFormatData = [];
 
