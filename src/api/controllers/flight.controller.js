@@ -1,22 +1,22 @@
-const httpStatus = require('http-status');
 const axios = require('axios');
-
-function getDataAirMoon() {
-  return axios.get('https://my.api.mockaroo.com/flight/air-moon?key=52445410')
-}
-
-function getDataAirJazz() {
-  return axios.get('https://my.api.mockaroo.com/flight/air-jazz?key=52445410')
-}
-
-function getDataAirBeam() {
-  return axios.get('https://my.api.mockaroo.com/flight/air-beam?key=52445410')
-}
+const _ = require('lodash');
+const mockaroo = require('../services/mockaroo');
+const parser = require('../services/parseData');
 
 exports.getList = (req, res, next) => {
-  axios.all([getDataAirMoon(), getDataAirJazz(), getDataAirBeam()])
-    .then(axios.spread((a, b, c) => {
-      console.log(c)
-      res.send(c.data);
+  axios.all([mockaroo.getDataAirMoon(), mockaroo.getDataAirJazz(), mockaroo.getDataAirBeam()])
+    .then(axios.spread((dataFromMoon, dataFromJazz, dataFromBeam) => {
+      const dataJson = parser.csvToJson(dataFromBeam.data);
+      const dataFromBeamFormat = parser.formatDataBeam(dataJson);
+      const dataFromJazzFormat = parser.formatDataJazz(dataFromJazz);
+      const dataFromMoonFormat = parser.formatDataMoon(dataFromMoon);
+
+      const allResults = [
+        ...dataFromBeamFormat,
+        ...dataFromJazzFormat,
+        ...dataFromMoonFormat,
+      ].sort().slice(50);
+
+      res.send(allResults);
     }));
 };
